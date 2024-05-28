@@ -10,5 +10,8 @@ import org.springframework.stereotype.Repository;
 
 public interface StudentRepository extends JpaRepository<Student,Integer> {
     @Query("Select s from Student s where s.firstName= :firstName and s.lastName= :lastName")
-    public Student findByFirstNameAndLastName(@Param("firstName") String f_name,@Param("lastName") String l_name);
+    public Student findByFullName(@Param("firstName") String f_name,@Param("lastName") String l_name);
+
+    @Query("Select s from Student s where s.Roll= :Roll and s.firstName= :firstName")
+    public Student findByNameAndRoll(@Param("Roll") int roll,@Param("firstName") String f_name);
 }

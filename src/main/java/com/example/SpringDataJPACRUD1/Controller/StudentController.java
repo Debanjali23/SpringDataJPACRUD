@@ -3,8 +3,12 @@ package com.example.SpringDataJPACRUD1.Controller;
 import com.example.SpringDataJPACRUD1.Entity.Student;
 import com.example.SpringDataJPACRUD1.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -16,45 +20,64 @@ public class StudentController {
 
     //add student to the database
     @PostMapping
-    public Student createStudents(@RequestBody Student s){
+    public ResponseEntity<Student> createStudents(@RequestBody Student s){
 
-        return studentService.saveStudent(s);
+       Student s1=studentService.saveStudent(s);
+       return ResponseEntity.ok(s1);
     }
 
     //Get all the students present in the database
     @GetMapping("/get")
-    public List<Student> getAllStudents(){
-        return studentService.getAll();
+    public ResponseEntity<List<Student>> getAllStudents(){
+
+       List<Student> list=studentService.getAll();
+       if(list.size()==0){
+           return ResponseEntity.badRequest().build();
+       }
+       return ResponseEntity.ok(list);
     }
 
     //extract student details by id
     @GetMapping("/id/{id}")
-    public Student getAllStudents(@PathVariable int id ){
-        return studentService.getStudents(id);
+    public ResponseEntity<Student> getAllStudents(@PathVariable int id ){
+
+        Student student= studentService.getStudents(id);
+        if(student.getRoll()!=id){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(student);
     }
 
-    //get student details only by first name
-    @GetMapping("/fname/{fname}")
-    public String getByFirstName(@PathVariable String fname){
-        return studentService.getStudentByFirstName(fname) ;
-    }
 
-    //get student details only by last name
-    @GetMapping("/lname/{lname}")
-    public String getByLastName(@PathVariable String lname){
-        return studentService.getStudentByLastName(lname) ;
-    }
 
     //get students by first and last name
-    @GetMapping("/flname/{fname}/{lname}")
-    public Student findByFullName(@PathVariable String fname,@PathVariable String lname){
-        return studentService.findByFAndLName(fname,lname);
+    @GetMapping("/fullname/{fname}")
+    public ResponseEntity<Student> findByFullName(@PathVariable String fname){
+        String[] sp= fname.split(" ");
+        if(sp.length==1){
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+        }
+        Student student=studentService.findByFullName(sp[0],sp[1]);
+        if(student==null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(student);
+    }
+
+    //get students by first name and roll
+    @GetMapping("/getby/{i}/{s}")
+    public ResponseEntity<Student> getByNameAndRoll(@PathVariable int i,@PathVariable String s){
+        Student student=studentService.findByRollAndName(i,s);
+        return ResponseEntity.ok(student);
     }
 
     //delete a student from database by id
     @DeleteMapping("/del/{id}")
-    public String deleteStudent(@PathVariable int id){
+    public ResponseEntity<String> deleteStudent(@PathVariable int id){
         studentService.deleteByRoll(id);
-        return "Student Deleted";
+        return ResponseEntity.ok().build();
     }
-}
+
+
+    }
+

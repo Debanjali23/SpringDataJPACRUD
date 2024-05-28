@@ -33,11 +33,21 @@ public class StudentService {
         return "Invalid Input";
     }
 
-    public Student findByFAndLName(String f,String l){
-        return studentRepository.findByFirstNameAndLastName(f,l);
+
+
+    public Student findByFullName(String fname,String lname){
+        return studentRepository.findByFullName(fname,lname);
+    }
+
+    public Student findByRollAndName(int r,String s){
+        return studentRepository.findByNameAndRoll(r,s);
     }
 
     public void deleteByRoll(int Roll){
         studentRepository.deleteById(Roll);
+    }
+
+    public void deleteall(){
+        studentRepository.deleteAll();
     }
 }
