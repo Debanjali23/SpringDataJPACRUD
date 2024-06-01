@@ -1,5 +1,6 @@
 package com.example.SpringDataJPACRUD1.Controller;
 
+import com.example.SpringDataJPACRUD1.DTO.StudentDTO;
 import com.example.SpringDataJPACRUD1.Entity.Student;
 import com.example.SpringDataJPACRUD1.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +21,17 @@ public class StudentController {
 
     //add student to the database
     @PostMapping
-    public ResponseEntity<Student> createStudents(@RequestBody Student s){
+    public ResponseEntity<StudentDTO> createStudents(@RequestBody Student s){
 
-       Student s1=studentService.saveStudent(s);
+       StudentDTO s1=studentService.saveStudent(s);
        return ResponseEntity.ok(s1);
     }
 
     //Get all the students present in the database
     @GetMapping("/get")
-    public ResponseEntity<List<Student>> getAllStudents(){
+    public ResponseEntity<List<StudentDTO>> getAllStudents(){
 
-       List<Student> list=studentService.getAll();
+       List<StudentDTO> list=studentService.getAll();
        if(list.size()==0){
            return ResponseEntity.badRequest().build();
        }
@@ -39,9 +40,9 @@ public class StudentController {
 
     //extract student details by id
     @GetMapping("/id/{id}")
-    public ResponseEntity<Student> getAllStudents(@PathVariable int id ){
+    public ResponseEntity<StudentDTO> getAllStudents(@PathVariable int id ){
 
-        Student student= studentService.getStudents(id);
+        StudentDTO student= studentService.getStudents(id);
         if(student.getRoll()!=id){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -52,12 +53,12 @@ public class StudentController {
 
     //get students by first and last name
     @GetMapping("/fullname/{fname}")
-    public ResponseEntity<Student> findByFullName(@PathVariable String fname){
+    public ResponseEntity<StudentDTO> findByFullName(@PathVariable String fname){
         String[] sp= fname.split(" ");
         if(sp.length==1){
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
         }
-        Student student=studentService.findByFullName(sp[0],sp[1]);
+        StudentDTO student=studentService.findByFullName(sp[0],sp[1]);
         if(student==null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -66,8 +67,8 @@ public class StudentController {
 
     //get students by first name and roll
     @GetMapping("/getby/{i}/{s}")
-    public ResponseEntity<Student> getByNameAndRoll(@PathVariable int i,@PathVariable String s){
-        Student student=studentService.findByRollAndName(i,s);
+    public ResponseEntity<StudentDTO> getByNameAndRoll(@PathVariable int i,@PathVariable String s){
+        StudentDTO student=studentService.findByRollAndName(i,s);
         return ResponseEntity.ok(student);
     }
 

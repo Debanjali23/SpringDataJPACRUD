@@ -11,8 +11,9 @@ import java.util.List;
 @Table(name="Student")
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
+@RequiredArgsConstructor
 @ToString
 public class Student {
     @Id

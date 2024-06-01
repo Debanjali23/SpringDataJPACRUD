@@ -12,9 +12,10 @@ import java.util.List;
 @Table(name="StudentMarks")
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 @ToString
+@RequiredArgsConstructor
 public class StudentMarks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
