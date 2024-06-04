@@ -12,18 +12,18 @@ import java.util.List;
 @Table(name="StudentMarks")
 @Getter
 @Setter
-//@NoArgsConstructor
-//@AllArgsConstructor
-@ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+
+//@RequiredArgsConstructor
 public class StudentMarks {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Roll;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     private String subject;
     private double marks;
     //@JdbcTypeCode(SqlTypes.JSON)
-//    @ManyToOne
-//    @JoinColumn(name = "student_roll")
+//     @ManyToOne
+//   @JoinColumn(name = "student_roll")
 //    private Student student;
 }

@@ -11,22 +11,24 @@ import java.util.List;
 @Table(name="Student")
 @Getter
 @Setter
-//@NoArgsConstructor
-//@AllArgsConstructor
-@RequiredArgsConstructor
-@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Student {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Roll;
+    @EmbeddedId
+    private StudentPK Roll;
+
     @Column(nullable = false)
     private String firstName;
     @Column(nullable = false)
     private String lastName;
     //@Column(nullable = false)
-    @Column
-    private String dob;
+
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(referencedColumnName = "Roll")
+    @JoinColumns({
+            @JoinColumn(referencedColumnName = "RollNo"),
+            @JoinColumn(referencedColumnName = "dob")
+    })
+    @MapsId("Roll")
     private List<StudentMarks> studentMarks;
 }

@@ -1,6 +1,7 @@
 package com.example.SpringDataJPACRUD1.DTO;
 
 import com.example.SpringDataJPACRUD1.Entity.StudentMarks;
+import com.example.SpringDataJPACRUD1.Entity.StudentPK;
 import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +14,9 @@ import java.util.List;
 @Setter
 @RequiredArgsConstructor
 public class StudentDTO {
-    private int Roll;
+    private StudentPK studentPK;
+
     private String firstName;
     private String lastName;
-    private String dob;
     private List<StudentMarks> studentMarks;
 }

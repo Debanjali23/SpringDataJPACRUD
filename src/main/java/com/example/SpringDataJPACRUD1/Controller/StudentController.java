@@ -2,7 +2,10 @@ package com.example.SpringDataJPACRUD1.Controller;
 
 import com.example.SpringDataJPACRUD1.DTO.StudentDTO;
 import com.example.SpringDataJPACRUD1.Entity.Student;
+import com.example.SpringDataJPACRUD1.Entity.StudentMarks;
+import com.example.SpringDataJPACRUD1.Response.ResponseEntities;
 import com.example.SpringDataJPACRUD1.Service.StudentService;
+import com.example.SpringDataJPACRUD1.ServiceImpl.ServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -11,72 +14,78 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/student")
 
 public class StudentController {
     @Autowired
-    private StudentService studentService;
+    private ServiceImplementation serviceImplementation;
+
+    @Autowired
+    private ResponseEntities responseEntities;
 
     //add student to the database
     @PostMapping
-    public ResponseEntity<StudentDTO> createStudents(@RequestBody Student s){
-
-       StudentDTO s1=studentService.saveStudent(s);
-       return ResponseEntity.ok(s1);
+    public ResponseEntity<String> createStudents(@RequestBody Student s){
+        for(StudentMarks marks:s.getStudentMarks()){
+            marks.setStudent(s);
+        }
+       Student s1=serviceImplementation.saveStudents(s);
+       return responseEntities.successful();
     }
 
     //Get all the students present in the database
     @GetMapping("/get")
-    public ResponseEntity<List<StudentDTO>> getAllStudents(){
+    public ResponseEntity<String> getAllStudents(){
 
-       List<StudentDTO> list=studentService.getAll();
+       List<Student> list=serviceImplementation.getAll();
        if(list.size()==0){
-           return ResponseEntity.badRequest().build();
+           return responseEntities.nocontent();
        }
-       return ResponseEntity.ok(list);
+       return responseEntities.successful();
     }
 
     //extract student details by id
     @GetMapping("/id/{id}")
-    public ResponseEntity<StudentDTO> getAllStudents(@PathVariable int id ){
+    public ResponseEntity<String> getAllStudents(@PathVariable int id ){
 
-        StudentDTO student= studentService.getStudents(id);
-        if(student.getRoll()!=id){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        Optional<Student> student= serviceImplementation.getStudents(id);
+        if(student.isEmpty()){
+            return responseEntities.notfound();
         }
-        return ResponseEntity.ok(student);
+        return responseEntities.successful();
     }
 
 
 
     //get students by first and last name
     @GetMapping("/fullname/{fname}")
-    public ResponseEntity<StudentDTO> findByFullName(@PathVariable String fname){
+    public ResponseEntity<String> findByFullName(@PathVariable String fname){
         String[] sp= fname.split(" ");
         if(sp.length==1){
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+            return responseEntities.notacceptable();
         }
-        StudentDTO student=studentService.findByFullName(sp[0],sp[1]);
+        Optional<Student> student=serviceImplementation.findByFullName(sp[0],sp[1]);
         if(student==null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return responseEntities.notfound();
         }
-        return ResponseEntity.ok(student);
+        return responseEntities.successful();
     }
 
     //get students by first name and roll
     @GetMapping("/getby/{i}/{s}")
-    public ResponseEntity<StudentDTO> getByNameAndRoll(@PathVariable int i,@PathVariable String s){
-        StudentDTO student=studentService.findByRollAndName(i,s);
-        return ResponseEntity.ok(student);
+    public ResponseEntity<String> getByNameAndRoll(@PathVariable int i,@PathVariable String s){
+        Optional<Student> student=serviceImplementation.findByRollAndName(i,s);
+        return responseEntities.successful();
     }
 
     //delete a student from database by id
     @DeleteMapping("/del/{id}")
     public ResponseEntity<String> deleteStudent(@PathVariable int id){
-        studentService.deleteByRoll(id);
-        return ResponseEntity.ok().build();
+        serviceImplementation.deleteByRoll(id);
+        return responseEntities.successful();
     }
 
 
