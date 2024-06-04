@@ -29,9 +29,7 @@ public class StudentController {
     //add student to the database
     @PostMapping
     public ResponseEntity<String> createStudents(@RequestBody Student s){
-        for(StudentMarks marks:s.getStudentMarks()){
-            marks.setStudent(s);
-        }
+
        Student s1=serviceImplementation.saveStudents(s);
        return responseEntities.successful();
     }
