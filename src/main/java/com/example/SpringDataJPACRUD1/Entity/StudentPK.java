@@ -15,6 +15,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class StudentPK implements Serializable {
 
-        private int RollNo;
+        private int roll;
         private String dob;
 }

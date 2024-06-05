@@ -16,19 +16,18 @@ import java.util.List;
 @Data
 public class Student {
     @EmbeddedId
-    private StudentPK Roll;
+    private StudentPK studentPK;
 
     @Column(nullable = false)
     private String firstName;
     @Column(nullable = false)
     private String lastName;
-    //@Column(nullable = false)
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumns({
-            @JoinColumn(referencedColumnName = "RollNo"),
+            @JoinColumn(referencedColumnName = "roll"),
             @JoinColumn(referencedColumnName = "dob")
     })
-    @MapsId("Roll")
+    @MapsId("studentPK")
     private List<StudentMarks> studentMarks;
 }

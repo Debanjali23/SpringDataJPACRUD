@@ -28,9 +28,9 @@ public class ServiceImplementation implements StudentService {
 //        return studentDTO;
 //    }
     @Override
-    public Student saveStudents(Student s){
-        Student student=(studentRepository.save(s));
-        return student;
+    public String saveStudents(Student s){
+       studentRepository.save(s);
+        return "success";
     }
     @Override
     public List<Student> getAll(){

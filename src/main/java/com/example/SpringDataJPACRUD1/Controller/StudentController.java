@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/student")
+
 
 public class StudentController {
     @Autowired
@@ -27,33 +27,36 @@ public class StudentController {
     private ResponseEntities responseEntities;
 
     //add student to the database
-    @PostMapping
+    @PostMapping("/add/student")
     public ResponseEntity<String> createStudents(@RequestBody Student s){
 
-       Student s1=serviceImplementation.saveStudents(s);
-       return responseEntities.successful();
+       String str=serviceImplementation.saveStudents(s);
+       if(str.equalsIgnoreCase("success")) {
+           return responseEntities.successful();
+       }
+       return responseEntities.nocontent();
     }
 
     //Get all the students present in the database
     @GetMapping("/get")
-    public ResponseEntity<String> getAllStudents(){
+    public ResponseEntity<List<Student>> getAllStudents(){
 
        List<Student> list=serviceImplementation.getAll();
        if(list.size()==0){
-           return responseEntities.nocontent();
+           return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
        }
-       return responseEntities.successful();
+       return ResponseEntity.of(Optional.of(list));
     }
 
     //extract student details by id
     @GetMapping("/id/{id}")
-    public ResponseEntity<String> getAllStudents(@PathVariable int id ){
+    public ResponseEntity<Optional<Student>> getAllStudents(@PathVariable int id ){
 
         Optional<Student> student= serviceImplementation.getStudents(id);
         if(student.isEmpty()){
-            return responseEntities.notfound();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
-        return responseEntities.successful();
+        return ResponseEntity.of(Optional.of(student));
     }
 
 

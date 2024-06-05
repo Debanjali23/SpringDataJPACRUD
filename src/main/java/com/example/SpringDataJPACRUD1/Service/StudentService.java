@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 public interface StudentService {
 //    StudentDTO entityToDto(Student student);
-    Student saveStudents(Student s);
+    String saveStudents(Student s);
     List<Student> getAll();
     Optional<Student> getStudentsByID(int id, String dob);
     Optional<Student> findByFullName(String fname,String lname);

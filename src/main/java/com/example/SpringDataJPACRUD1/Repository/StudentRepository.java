@@ -16,12 +16,12 @@ public interface StudentRepository extends JpaRepository<Student, StudentPK> {
     @Query("Select s from Student s where s.firstName= :firstName and s.lastName= :lastName")
     public Optional<Student> findByFullName(@Param("firstName") String f_name, @Param("lastName") String l_name);
 
-    @Query("Select s from Student s where s.Roll= :Roll and s.firstName= :firstName")
-    public Optional<Student> findByNameAndRoll(@Param("Roll") int roll,@Param("firstName") String f_name);
+    @Query("Select s from Student s where s.studentPK.roll= :roll and s.firstName= :firstName")
+    public Optional<Student> findByNameAndRoll(@Param("roll") int roll,@Param("firstName") String f_name);
     @Modifying
-    @Query("Delete from Student s where s.Roll= :Roll")
-    public void deletebyRoll(@Param("Roll") int r);
+    @Query("Delete from Student s where s.studentPK.roll= :roll")
+    public void deletebyRoll(@Param("roll") int r);
 
-    @Query("Select s from Student s where s.Roll= :Roll" )
-    public Optional<Student> getByRoll(@Param("Roll") int r);
+    @Query("Select s from Student s where s.studentPK.roll= :roll" )
+    public Optional<Student> getByRoll(@Param("roll") int r);
 }
