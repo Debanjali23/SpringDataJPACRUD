@@ -1,5 +1,6 @@
 package com.example.SpringDataJPACRUD1.ServiceImpl;
 
+import com.example.SpringDataJPACRUD1.DTO.StudentRequest;
 import com.example.SpringDataJPACRUD1.DTO.StudentResponse;
 import com.example.SpringDataJPACRUD1.Entity.Student;
 import com.example.SpringDataJPACRUD1.Entity.StudentPK;
@@ -70,6 +71,13 @@ public class ServiceImplementation implements StudentService {
         Student student= studentRepository.findByNameAndRoll(r,s);
         if(student==null) return null;
         return responseEntities.entityToDto(student);
+    }
+    @Override
+    public Student updateID(int id){
+        Student student1= studentRepository.getByRoll(id);
+        if(student1==null) return null;
+        student1.setFirstName("Mary");
+        return studentRepository.save(student1);
     }
     @Override
     public void deleteByRoll(int Roll){

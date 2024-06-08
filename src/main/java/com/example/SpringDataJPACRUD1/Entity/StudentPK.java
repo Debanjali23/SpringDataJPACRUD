@@ -12,10 +12,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 
+
 public class StudentPK implements Serializable {
 
         private int roll;
         private String dob;
+
 
 
 }

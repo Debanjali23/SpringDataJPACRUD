@@ -1,5 +1,6 @@
 package com.example.SpringDataJPACRUD1.Controller;
 
+import com.example.SpringDataJPACRUD1.DTO.StudentRequest;
 import com.example.SpringDataJPACRUD1.DTO.StudentResponse;
 import com.example.SpringDataJPACRUD1.Entity.Student;
 import com.example.SpringDataJPACRUD1.Response.ResponseEntities;
@@ -86,6 +87,12 @@ public class StudentController {
         return ResponseEntity.of(Optional.of(studentResponse));
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Student> updateFirstNameById(@PathVariable int id){
+        Student student=serviceImplementation.updateID(id);
+        if(student==null) ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.of(Optional.of(student));
+    }
     //delete a student from database by id
     @DeleteMapping("/del/{id}")
     public ResponseEntity<String> deleteStudent(@PathVariable int id){

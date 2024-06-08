@@ -1,5 +1,6 @@
 package com.example.SpringDataJPACRUD1.Service;
 
+import com.example.SpringDataJPACRUD1.DTO.StudentRequest;
 import com.example.SpringDataJPACRUD1.DTO.StudentResponse;
 import com.example.SpringDataJPACRUD1.Entity.Student;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public interface StudentService {
     void deleteByRoll(int Roll);
     void deleteall();
     StudentResponse getStudents(int Roll);
+    Student updateID(int id);
 
 
 }
