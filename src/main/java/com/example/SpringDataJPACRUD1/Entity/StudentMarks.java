@@ -10,10 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name="StudentMarks")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 
 //@RequiredArgsConstructor
 public class StudentMarks {

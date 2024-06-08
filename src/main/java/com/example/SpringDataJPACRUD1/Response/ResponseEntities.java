@@ -1,6 +1,7 @@
 package com.example.SpringDataJPACRUD1.Response;
 
-import com.example.SpringDataJPACRUD1.DTO.StudentDTO;
+import com.example.SpringDataJPACRUD1.DTO.StudentRequest;
+import com.example.SpringDataJPACRUD1.DTO.StudentResponse;
 import com.example.SpringDataJPACRUD1.Entity.Student;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ResponseEntities {
+    @Autowired
+    ModelMapper modelMapper;
+    public StudentResponse entityToDto(Student student){
+        return modelMapper.map(student, StudentResponse.class);
+    }
+
+    public Student DtoToEntity(StudentRequest studentRequest){
+        return modelMapper.map(studentRequest, Student.class);
+    }
 
     public ResponseEntity<String> successful(){
         return new ResponseEntity<String>(HttpStatus.OK);

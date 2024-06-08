@@ -14,14 +14,14 @@ import java.util.Optional;
 
 public interface StudentRepository extends JpaRepository<Student, StudentPK> {
     @Query("Select s from Student s where s.firstName= :firstName and s.lastName= :lastName")
-    public Optional<Student> findByFullName(@Param("firstName") String f_name, @Param("lastName") String l_name);
+    public Student findByFullName(@Param("firstName") String f_name, @Param("lastName") String l_name);
 
     @Query("Select s from Student s where s.studentPK.roll= :roll and s.firstName= :firstName")
-    public Optional<Student> findByNameAndRoll(@Param("roll") int roll,@Param("firstName") String f_name);
+    public Student findByNameAndRoll(@Param("roll") int roll,@Param("firstName") String f_name);
     @Modifying
     @Query("Delete from Student s where s.studentPK.roll= :roll")
     public void deletebyRoll(@Param("roll") int r);
 
     @Query("Select s from Student s where s.studentPK.roll= :roll" )
-    public Optional<Student> getByRoll(@Param("roll") int r);
+    public Student getByRoll(@Param("roll") int r);
 }

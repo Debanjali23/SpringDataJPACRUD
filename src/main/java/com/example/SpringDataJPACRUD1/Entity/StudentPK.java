@@ -9,12 +9,13 @@ import java.io.Serializable;
 
 @Embeddable
 @Data
-@Getter
-@Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+
 public class StudentPK implements Serializable {
 
         private int roll;
         private String dob;
+
+
 }

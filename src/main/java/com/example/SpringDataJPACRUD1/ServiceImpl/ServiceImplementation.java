@@ -1,12 +1,13 @@
 package com.example.SpringDataJPACRUD1.ServiceImpl;
 
-import com.example.SpringDataJPACRUD1.DTO.StudentDTO;
+import com.example.SpringDataJPACRUD1.DTO.StudentResponse;
 import com.example.SpringDataJPACRUD1.Entity.Student;
 import com.example.SpringDataJPACRUD1.Entity.StudentPK;
 import com.example.SpringDataJPACRUD1.Repository.StudentRepository;
+import com.example.SpringDataJPACRUD1.Response.ResponseEntities;
 import com.example.SpringDataJPACRUD1.Service.StudentService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,9 @@ import java.util.stream.Collectors;
 public class ServiceImplementation implements StudentService {
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private ResponseEntities responseEntities;
 
 //    @Autowired
 //    private ModelMapper modelMapper;
@@ -33,28 +37,39 @@ public class ServiceImplementation implements StudentService {
         return "success";
     }
     @Override
-    public List<Student> getAll(){
+    public List<StudentResponse> getAll(){
 
-        return studentRepository.findAll();
+        List<Student> student= studentRepository.findAll();
+        List<StudentResponse> studentResponses=student.stream().map(responseEntities::entityToDto).collect(Collectors.toList());
+        return studentResponses;
     }
     @Override
-    public Optional<Student> getStudentsByID(int Roll,String dob){
-        return studentRepository.findById(new StudentPK(Roll,dob));
+    public StudentResponse getStudentsByID(int Roll, String dob){
+        Optional<Student> student= studentRepository.findById(new StudentPK(Roll,dob));
+        if(student==null) return null;
+        return responseEntities.entityToDto(student.get());
     }
 
     @Override
-    public Optional<Student> getStudents(int Roll){
-        return studentRepository.getByRoll(Roll);
+    public StudentResponse getStudents(int Roll){
+
+        Student student= studentRepository.getByRoll(Roll);
+        if(student==null) return null;
+        return  responseEntities.entityToDto(student);
     }
     @Override
-    public Optional<Student> findByFullName(String fname,String lname){
+    public StudentResponse findByFullName(String fname,String lname){
 
-        return studentRepository.findByFullName(fname,lname);
+       Student student= studentRepository.findByFullName(fname,lname);
+       if(student==null) return null;
+       return responseEntities.entityToDto(student);
     }
     @Override
-    public Optional<Student> findByRollAndName(int r,String s){
+    public StudentResponse findByRollAndName(int r,String s){
 
-        return studentRepository.findByNameAndRoll(r,s);
+        Student student= studentRepository.findByNameAndRoll(r,s);
+        if(student==null) return null;
+        return responseEntities.entityToDto(student);
     }
     @Override
     public void deleteByRoll(int Roll){

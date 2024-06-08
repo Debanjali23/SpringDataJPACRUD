@@ -9,10 +9,6 @@ import java.util.List;
 
 @Entity
 @Table(name="Student")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
 public class Student {
     @EmbeddedId
