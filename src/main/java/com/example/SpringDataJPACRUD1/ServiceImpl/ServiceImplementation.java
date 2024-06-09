@@ -4,6 +4,7 @@ import com.example.SpringDataJPACRUD1.DTO.StudentRequest;
 import com.example.SpringDataJPACRUD1.DTO.StudentResponse;
 import com.example.SpringDataJPACRUD1.Entity.Student;
 import com.example.SpringDataJPACRUD1.Entity.StudentPK;
+import com.example.SpringDataJPACRUD1.Exception.ResourceNotFound;
 import com.example.SpringDataJPACRUD1.Repository.StudentRepository;
 import com.example.SpringDataJPACRUD1.Response.ResponseEntities;
 import com.example.SpringDataJPACRUD1.Service.StudentService;
@@ -46,9 +47,11 @@ public class ServiceImplementation implements StudentService {
     }
     @Override
     public StudentResponse getStudentsByID(int Roll, String dob){
-        Optional<Student> student= studentRepository.findById(new StudentPK(Roll,dob));
-        if(student==null) return null;
-        return responseEntities.entityToDto(student.get());
+      Student student= studentRepository.findById(new StudentPK(Roll,dob)).orElseThrow(
+               ()->new ResourceNotFound("Student","Roll",Roll)
+       );
+//        if(student==null) return null;
+        return responseEntities.entityToDto(student);
     }
 
     @Override

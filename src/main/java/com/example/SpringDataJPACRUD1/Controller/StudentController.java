@@ -3,6 +3,7 @@ package com.example.SpringDataJPACRUD1.Controller;
 import com.example.SpringDataJPACRUD1.DTO.StudentRequest;
 import com.example.SpringDataJPACRUD1.DTO.StudentResponse;
 import com.example.SpringDataJPACRUD1.Entity.Student;
+import com.example.SpringDataJPACRUD1.Exception.ResourceNotFound;
 import com.example.SpringDataJPACRUD1.Response.ResponseEntities;
 import com.example.SpringDataJPACRUD1.ServiceImpl.ServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +48,9 @@ public class StudentController {
     //get students by Primary Keys
     @GetMapping("/pk/{i}/{s}")
     public ResponseEntity<StudentResponse> getByIdandDob(@PathVariable int i,@PathVariable String s){
-        StudentResponse studentResponse=serviceImplementation.findByRollAndName(i,s);
-        if(studentResponse==null) return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        return ResponseEntity.of(Optional.of(studentResponse));
+        StudentResponse studentResponse=serviceImplementation.getStudentsByID(i,s);
+       // if(studentResponse==null) return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.ok(studentResponse);
     }
 
     //extract student details by id
@@ -57,9 +58,7 @@ public class StudentController {
     public ResponseEntity<StudentResponse> getAllStudents(@PathVariable int id ){
 
         StudentResponse studentResponse= serviceImplementation.getStudents(id);
-        if(studentResponse==null){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }
+       if(studentResponse==null) return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         return ResponseEntity.of(Optional.of(studentResponse));
     }
 
