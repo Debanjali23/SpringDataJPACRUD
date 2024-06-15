@@ -10,6 +10,9 @@ import java.util.List;
 @Entity
 @Table(name="Student")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Student {
     @EmbeddedId
     private StudentPK studentPK;

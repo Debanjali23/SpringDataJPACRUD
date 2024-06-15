@@ -42,12 +42,15 @@ public class ServiceImplementation implements StudentService {
     public List<StudentResponse> getAll(){
 
         List<Student> student= studentRepository.findAll();
-        List<StudentResponse> studentResponses=student.stream().map(responseEntities::entityToDto).collect(Collectors.toList());
+        List<StudentResponse> studentResponses=student.stream()
+                .map(responseEntities::entityToDto)
+                .collect(Collectors.toList());
         return studentResponses;
     }
     @Override
     public StudentResponse getStudentsByID(int Roll, String dob){
-      Student student= studentRepository.findById(new StudentPK(Roll,dob)).orElseThrow(
+      Student student= studentRepository.findById(new StudentPK(Roll,dob))
+              .orElseThrow(
                ()->new ResourceNotFound("Student","Roll",Roll)
        );
 //        if(student==null) return null;

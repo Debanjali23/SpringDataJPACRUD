@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 
 
 public class StudentPK implements Serializable {
