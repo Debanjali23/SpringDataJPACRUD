@@ -18,13 +18,17 @@ import java.util.stream.Collectors;
 
 @Service
 public class ServiceImplementation implements StudentService {
-    @Autowired
+    //@Autowired
     private StudentRepository studentRepository;
 
     @Autowired
     private ResponseEntities responseEntities;
+    @Autowired//constructor injection
+    public ServiceImplementation(StudentRepository studentRepository) {
+        this.studentRepository=studentRepository;
+    }
 
-//    @Autowired
+    //    @Autowired
 //    private ModelMapper modelMapper;
 //
 //    @Override
@@ -38,6 +42,13 @@ public class ServiceImplementation implements StudentService {
        studentRepository.save(s);
         return "success";
     }
+
+    @Override//for testing purpose
+    public Student saveStudent(Student s){
+        Student student=studentRepository.save(s);
+        return student;
+    }
+
     @Override
     public List<StudentResponse> getAll(){
 
@@ -47,6 +58,16 @@ public class ServiceImplementation implements StudentService {
                 .collect(Collectors.toList());
         return studentResponses;
     }
+
+    @Override
+    public List<Student> getAllStudent(){
+
+        List<Student> student= studentRepository.findAll();
+//        List<StudentResponse> studentResponses=student.stream()
+//                .map(responseEntities::entityToDto)
+//                .collect(Collectors.toList());
+        return student;
+    }
     @Override
     public StudentResponse getStudentsByID(int Roll, String dob){
       Student student= studentRepository.findById(new StudentPK(Roll,dob))
@@ -55,6 +76,16 @@ public class ServiceImplementation implements StudentService {
        );
 //        if(student==null) return null;
         return responseEntities.entityToDto(student);
+    }
+
+    @Override//for testing purpose
+    public Student getStudentByID(int Roll, String dob){
+        Student student= studentRepository.findById(new StudentPK(Roll,dob))
+                .orElseThrow(
+                        ()->new ResourceNotFound("Student","Roll",Roll)
+                );
+//        if(student==null) return null;
+        return student;
     }
 
     @Override

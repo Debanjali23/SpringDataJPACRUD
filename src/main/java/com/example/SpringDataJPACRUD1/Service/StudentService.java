@@ -21,6 +21,8 @@ public interface StudentService {
     void deleteall();
     StudentResponse getStudents(int Roll);
     Student updateID(int id);
-
+    Student saveStudent(Student s);//for testing purpose
+    Student getStudentByID(int Roll, String dob);//for testing purpose
+    List<Student> getAllStudent();//for testing purpose
 
 }

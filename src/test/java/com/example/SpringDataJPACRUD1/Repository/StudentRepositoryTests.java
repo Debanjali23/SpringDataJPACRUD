@@ -29,6 +29,7 @@ public class StudentRepositoryTests {
     @BeforeEach
     //we can also define the student object here and use it in every test
     public void setUp() {
+
         studentRepository.deleteAll(); // Ensure the repository is clean before each test
    }
 
