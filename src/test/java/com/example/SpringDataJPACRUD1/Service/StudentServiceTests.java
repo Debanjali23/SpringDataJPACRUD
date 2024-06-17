@@ -169,4 +169,22 @@ public class StudentServiceTests {
 
 
     }
+
+    //JUnit test to get student by Roll
+    @Test
+    public void givenStudentObject_whenFindByID_thenReturnStudent(){
+
+
+        //given
+        given(studentRepository.getByRoll(1)).willReturn(student);
+
+        //when
+        Student student1=studentService.getStudentsByRoll(student.getStudentPK().getRoll());
+
+        //then
+        assertThat(student1).isNotNull();
+
+
+
+    }
 }

@@ -95,6 +95,14 @@ public class ServiceImplementation implements StudentService {
         if(student==null) return null;
         return  responseEntities.entityToDto(student);
     }
+
+    @Override//for testing
+    public Student getStudentsByRoll(int Roll){
+
+        Student student= studentRepository.getByRoll(Roll);
+        if(student==null) return null;
+        return  student;
+    }
     @Override
     public StudentResponse findByFullName(String fname,String lname){
 
